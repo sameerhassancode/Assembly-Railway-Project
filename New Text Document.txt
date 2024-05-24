@@ -1,0 +1,12 @@
+.386
+.model flat, stdcall
+.stack 4096
+INCLUDE irvine32.inc
+ExitProcess PROTO, dwExitCode:DWORD
+
+.data
+
+.code
+main PROC
+   
+END main

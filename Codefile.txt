@@ -4,9 +4,70 @@
 INCLUDE irvine32.inc
 ExitProcess PROTO, dwExitCode:DWORD
 
+Train STRUCT
+    name Dword ?
+    departure Dword ?
+    destination Dword ?
+    fare DWORD ?
+    seats DWORD ?
+Train ENDS
+
 .data
+
+; Msg declaration 
+ msgWelcome BYTE "WELCOME TO Railways", 0
+    msgEnterPin BYTE "Enter your pin to continue: ", 0
+    msgMainMenu BYTE "PRESS 1 IF YOU ARE ADMIN", 0
+    msgMainMenu2 BYTE "PRESS 2 IF YOU ARE A PASSENGER LOOKING TO TRAVEL WITH US", 0
+    msgAddTrains BYTE "How many trains do you want to add: ", 0
+    msgEnterTrainName BYTE "Enter train name: ", 0
+    msgEnterDeparture BYTE "Enter departure: ", 0
+    msgEnterDestination BYTE "Enter destination: ", 0
+    msgEnterFare BYTE "Enter fare: ", 0
+    msgEnterSeats BYTE "Enter seats: ", 0
+    msgInvalidChoice BYTE "Invalid choice. Please try again.", 0
+    msgPinInvalid BYTE "Invalid pin. Access denied.", 0
+    msgAdminAccess BYTE "Admin access granted.", 0
+
+
+    ; Pin 
+    pin Dword 5
+    ; Number of trains 
+    trainCount DWORD 0
 
 .code
 main PROC
+  mov edx,offset msgwelcome
+    call writestring
+    call crlf
+    mov edx, offset msgEnterPin
+    call writestring
+    call readint
+    cmp pin,eax
+    JNE notEqual
+    
+    ; admin Msg 
    
+     mov edx, offset  msgMainMenu
+    call writestring
+    call crlf
+
+    ; User msg
+       mov edx, offset  msgMainMenu2
+    call writestring
+    call crlf
+
+
+    jmp done
+
+    notEqual:
+    mov edx,offset  msgPinInvalid
+    call writestring
+    call crlf
+    done:
+    INVOKE ExitProcess, 0
+
+
+main ENDP
+
 END main

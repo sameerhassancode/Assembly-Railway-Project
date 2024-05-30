@@ -27,15 +27,18 @@ msgRunAgain BYTE "Do you want to run the program again? (1 for yes, 0 for no): "
 msgBookSeats BYTE "Enter the number of seats you want to book: ", 0
 msgBookingSuccess BYTE "Booking successful!", 0
 msgBookingFail BYTE "Booking failed. Not enough seats available.", 0
-
+msgfare1 Byte "Fare :",0
+msgSeat1 Byte "Seats :",0
+msgDis Byte "Distination :",0
+msgDep Byte "Departure :",0
+msgName Byte "Name :",0
 .code
 main PROC
-    mov edx, offset msgWelcome
-    call WriteString
-    call Crlf
-
 again:
 call clrscr
+     mov edx, offset msgWelcome
+    call WriteString
+    call Crlf
     mov edx, offset msgPin
     call WriteString
     call Crlf
@@ -56,22 +59,33 @@ call clrscr
 user:
     ; Display available train data
     call crlf
+    mov edx,offset msgname
+        call WriteString
     mov edx, offset trainName
     call WriteString
     call Crlf
 
+    mov edx, offset msgdep
+    call WriteString
     mov edx, offset departure
     call WriteString
     call Crlf
 
+    mov edx, offset msgdis
+    call WriteString
     mov edx, offset destination
     call WriteString
     call Crlf
 
+
+    mov edx, offset msgfare1
+    call WriteString
     mov eax, fare
     call WriteDec
-    call Crlf
 
+        call Crlf
+    mov edx, offset msgseat1
+    call WriteString
     mov eax, seats
     call WriteDec
     call Crlf
@@ -108,8 +122,10 @@ admin:
     mov edx, offset msgTrainName
     call WriteString
     call Crlf
-    lea edx, trainName
-    call Readchar
+    mov edx,offset trainName
+      mov edx,offset trainName
+    mov ecx,sizeof trainName
+    call ReadString
     call crlf
     mov edx, offset msgFare
     call WriteString
@@ -119,9 +135,10 @@ admin:
     call crlf
     mov edx, offset msgDeparture
     call WriteString
-    call Crlf
-    lea edx, departure
-    call Readchar
+      call Crlf
+    mov edx,offset departure
+    mov ecx,sizeof departure
+    call readString
     call crlf
 
     mov edx, offset msgSeats
@@ -131,9 +148,10 @@ admin:
     mov seats, eax
     call crlf
     mov edx, offset msgDestination
-    call Writechar
+    call WriteString
     call Crlf
-    lea edx, destination
+    mov edx,offset destination
+    mov ecx,sizeof destination
     call ReadString
 
     call crlf
@@ -164,8 +182,6 @@ done:
     je again
 
     INVOKE ExitProcess, 0
-main ENDP
+main ENDP
 
-END main
-
-; 46196
+END main
